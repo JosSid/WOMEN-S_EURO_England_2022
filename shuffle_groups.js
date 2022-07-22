@@ -77,6 +77,12 @@ for(let i = 0; i < teams.length; i++) {
 
 }
 
+console.log(team1.ball)
+
+for(let team of teams) {
+    delete team.ball
+}
+
 
 
 function shuffleTeams () {
@@ -105,14 +111,8 @@ function shuffleTeams () {
     console.log(`*******${groupD[1].name}*******`)
     console.log(`*******${groupD[2].name}*******`)
     console.log(`*******${groupD[3].name}*******`)
+    console.log('')
 }
 
-/* console.log(teams[0].name, teams[15].name)
-console.log(groupA[0].name, groupA[1].name, groupA[2].name, groupA[3].name)
-console.log(groupB[0].name, groupB[1].name, groupB[2].name, groupB[3].name)
-console.log(groupC[0].name, groupC[1].name, groupC[2].name, groupC[3].name)
-console.log(groupD[0].name, groupD[1].name, groupD[2].name, groupD[3].name) */
-
-shuffleTeams()
-
-// console.log(teams[0].name)
+console.log(team1.ball)
+export {Team, teams, groupA, groupB, groupC, groupD,shuffleTeams}
