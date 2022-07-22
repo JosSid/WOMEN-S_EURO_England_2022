@@ -15,5 +15,4 @@ groupSchedule(groupB) */
 
 
 
-const grupo1 = ['Sueca', 'Cullera', 'Fortaleny', 'Favara']
 

@@ -53,8 +53,9 @@ function scheduleCreation(group) {//Como parametro le pasaremnos un Array de equ
     return calendarioPartidos
   }
 
-  const grupo = ["ALbalat", "Polinya", "Benicull", "Riola", 'Sueca', 'Cullera', 'Fortaleny', 'Favara'];
+const grupo = ["ALbalat", "Polinya", "Benicull", "Riola"];
+const grupo1 = ['Sueca', 'Cullera', 'Fortaleny', 'Favara'] 
   
-  const schedule = scheduleCreation(grupo)
+const schedule = scheduleCreation(grupo1)
   
-  console.log(schedule[0][0].local)
+console.log(schedule)

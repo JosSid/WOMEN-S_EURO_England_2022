@@ -77,7 +77,7 @@ for(let i = 0; i < teams.length; i++) {
 
 }
 
-console.log(team1.ball)
+
 
 for(let team of teams) {
     delete team.ball
@@ -114,5 +114,4 @@ function shuffleTeams () {
     console.log('')
 }
 
-console.log(team1.ball)
 export {Team, teams, groupA, groupB, groupC, groupD,shuffleTeams}
