@@ -10,9 +10,11 @@ const team = {
   goalsDifference: 0,
 };
 
-/* groupSchedule(groupA)
-groupSchedule(groupB) */
 
 
+//PRESENTACION DEL TORNEO
 
+//Con esta funcion se presentan los equipos participantes del torneo y los partidos de cada jornada.
+
+import { scheduleGroupA, scheduleGroupB, scheduleGroupC, scheduleGroupD } from "./matchDaysCreate.js";
 

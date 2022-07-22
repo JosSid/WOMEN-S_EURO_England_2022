@@ -1,3 +1,9 @@
+//SEGUNDA PARTE DE LA PRACTICA
+
+//EMPAREJAMIENTOS DE LOS EQUIPOS PARA LOS PARTIDOS DE LA LIGUILLA
+
+import {teams, groupA, groupB, groupC, groupD} from "./groupsCreate.js"
+
 //Funcion para definir las jornadas de cada grupo del torneo
 /**
  * 
@@ -53,9 +59,10 @@ function scheduleCreation(group) {//Como parametro le pasaremnos un Array de equ
     return calendarioPartidos
   }
 
-const grupo = ["ALbalat", "Polinya", "Benicull", "Riola"];
-const grupo1 = ['Sueca', 'Cullera', 'Fortaleny', 'Favara'] 
+ 
+export const scheduleGroupA = scheduleCreation(groupA)
+export const scheduleGroupB = scheduleCreation(groupB)
+export const scheduleGroupC = scheduleCreation(groupC)
+export const scheduleGroupD = scheduleCreation(groupD)
   
-const schedule = scheduleCreation(grupo1)
-  
-console.log(schedule)
+console.log(scheduleGroupA)
