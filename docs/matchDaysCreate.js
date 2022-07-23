@@ -65,4 +65,3 @@ export const scheduleGroupB = scheduleCreation(groupB)
 export const scheduleGroupC = scheduleCreation(groupC)
 export const scheduleGroupD = scheduleCreation(groupD)
   
-console.log(scheduleGroupA)
