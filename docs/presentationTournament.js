@@ -16,17 +16,16 @@ const team = {
 
 //Con esta funcion se presentan los equipos participantes del torneo y los partidos de cada jornada.
 
-import { scheduleGroupA, scheduleGroupB, scheduleGroupC, scheduleGroupD } from "./matchDaysCreate.js";
-import {teams, groupA, groupB, groupC, groupD} from "./groupsCreate.js";
+import {groupA, groupB, groupC, groupD} from "./groupsCreate.js";
 
 /**
  * 
- * @param {'array de equipos'} group 
+ * @param {'array de grupos de equipos'} group 
  */
-function presentationGroups(group) {
+export function presentationGroups() {
   console.log('***UEFA WOMENS EURO CUP LONDON 2022***')
   console.log('')
-  console.log('**********GRUPOS Y CALENDARIO*********')
+  console.log('**********GROUPS AND SCHEDULE*********')
   console.log('')
   for (let i = 0; i < teamsGroups.length ; i++ ) {
     console.log(`=======${titlesGroups[i]}=======`)
@@ -50,6 +49,6 @@ function presentationGroups(group) {
   }
 }
 
-const titlesGroups = ['GROUP A', 'GROUP B', 'GROUP C', 'GROUP D']
-const teamsGroups = [groupA, groupB, groupC, groupD]
-presentationGroups(groupA)
+export const titlesGroups = ['GROUP A', 'GROUP B', 'GROUP C', 'GROUP D']
+export const teamsGroups = [groupA, groupB, groupC, groupD]
+presentationGroups()
