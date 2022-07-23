@@ -85,7 +85,7 @@ for(let team of teams) {
 
 
 
-function shuffleTeams () {
+/* function shuffleTeams () {
     console.log('***UEFA WOMENS EURO CUP LONDON 2022***')
     console.log('')
     console.log('=======GROUP A=======')
@@ -112,6 +112,8 @@ function shuffleTeams () {
     console.log(`*******${groupD[2].name}*******`)
     console.log(`*******${groupD[3].name}*******`)
     console.log('')
-}
+} */
 
-export {Team, teams, groupA, groupB, groupC, groupD,shuffleTeams}
+console.table(teams[0].stadistics)
+
+export {Team, teams, groupA, groupB, groupC, groupD}
