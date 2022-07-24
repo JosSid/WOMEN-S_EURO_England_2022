@@ -11,29 +11,29 @@ import {teams, groupA, groupB, groupC, groupD} from "./groupsCreate.js"
  * @returns Array con los partidos y jornadas
  */
 function scheduleCreation(group) {//Como parametro le pasaremnos un Array de equipos
-    const calendarioPartidos = []; //Array donde se almacenaran las diferentes jornadas del grupo
-    const numJornadas = group.length - 1; //El número de jornadas es == al numero de equipos de cada grupo - 1
-    const numPartidosPorJornada = group.length / 2;//El numero de partidos por jornada es == al total de equipos / 2
+    const scheduleMatches = []; //Array donde se almacenaran las diferentes jornadas del grupo
+    const numMatchesDay = group.length - 1; //El número de jornadas es == al numero de equipos de cada grupo - 1
+    const numMatchesForMatchDay = group.length / 2;//El numero de partidos por jornada es == al total de equipos / 2
     // para cada jornada
-    for (let i = 0; i < numJornadas; i++) {
+    for (let i = 0; i < numMatchesDay; i++) {
       //Para cada partido de la jornada
-      const jornada = []; //Array donde se almacenara cada jornada y despues la subiremos al array del calendario
-      for (let j = 0; j < numPartidosPorJornada; j++) {
+      const matchDay = []; //Array donde se almacenara cada jornada y despues la subiremos al array del calendario
+      for (let j = 0; j < numMatchesForMatchDay; j++) {
         //Registrar el partido en la planificacion
         //Un partido es el enfrentamiento entre dos equipos
-        const partido = { local: "local", visitante: "visitante" };
-        jornada.push(partido);
+        const match = { home: "home", away: "away" };
+        matchDay.push(match);
       }
-      calendarioPartidos.push(jornada);
+      scheduleMatches.push(matchDay);
     }
   
     //Para cada partido:
     // Primero definimos los equipos que jugaran de Local
     let groupIndex = 0;
     let groupIndexMaxValor = group.length - 1 - 1;
-    calendarioPartidos.forEach((jornada) => {
-      jornada.forEach((partido) => {
-        partido.local = group[groupIndex];
+    scheduleMatches.forEach((matchDay) => {
+      matchDay.forEach((match) => {
+        match.home = group[groupIndex];
         groupIndex++; //Incrementamos el Indice
         if (groupIndex > groupIndexMaxValor) { //Resetaemos el Indice para que no meta el ultimo equipo del Array en los equipos Locales
           groupIndex = 0;
@@ -43,12 +43,12 @@ function scheduleCreation(group) {//Como parametro le pasaremnos un Array de equ
     
     // A continuación definimos los equipos visitantes 
     let i = group.length - 1 -1;
-    calendarioPartidos.forEach((jornada) => {
-      jornada.forEach((partido, groupIndex) => {
+    scheduleMatches.forEach((matchDay) => {
+      matchDay.forEach((match, groupIndex) => {
         if (groupIndex === 0) { //el primer visitante siempre sera el ultimo equipo del Array
-          partido.visitante = group[group.length - 1];
+          match.away = group[group.length - 1];
         } else {
-          partido.visitante = group[i];// El segundo visitante sera el resto de equipos del Array en orden inverso
+          match.away = group[i];// El segundo visitante sera el resto de equipos del Array en orden inverso
           i--;
         }
         if (i < 0) {
@@ -56,7 +56,7 @@ function scheduleCreation(group) {//Como parametro le pasaremnos un Array de equ
         }
       });
     });
-    return calendarioPartidos
+    return scheduleMatches
   }
 
  
