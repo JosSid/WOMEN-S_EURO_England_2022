@@ -1,7 +1,7 @@
-import teamsToObject from "./docs/teamsClass.js"
-import {groupA, groupB, groupC, groupD} from "./docs/groupsCreate.js"
+import teamsToObject from "./teamsClass.js"
+import {groupA, groupB, groupC, groupD} from "./groupsCreate.js"
 
-import { scheduleGroupA, scheduleGroupB, scheduleGroupC, scheduleGroupD } from "./docs/matchDaysCreate.js"
+import { scheduleGroupA, scheduleGroupB, scheduleGroupC, scheduleGroupD } from "./matchDaysCreate.js"
 
 const groupAObj = teamsToObject(groupA)
 const groupBObj = teamsToObject(groupB)
@@ -50,7 +50,3 @@ console.log(scoreBoardGroupC)
 
 const scoreBoardGroupD = matchDaysScore(scheduleGroupD)
 console.log(scoreBoardGroupD)
-
-
-
-
