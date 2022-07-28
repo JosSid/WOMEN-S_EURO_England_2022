@@ -39,4 +39,3 @@ export function presentationGroups() {
 
 export const titlesGroups = ['GROUP A', 'GROUP B', 'GROUP C', 'GROUP D']
 export const teamsGroups = [groupA, groupB, groupC, groupD]
-presentationGroups()

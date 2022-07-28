@@ -40,17 +40,17 @@ function score(teams) {
 
 
 const scoreBoardGroupA = matchDaysScore(scheduleGroupA)
-console.log(scoreBoardGroupA)
+//console.log(scoreBoardGroupA)
 
 const scoreBoardGroupB = matchDaysScore(scheduleGroupB)
-console.log(scoreBoardGroupB)
+//console.log(scoreBoardGroupB)
 
 const scoreBoardGroupC = matchDaysScore(scheduleGroupC)
-console.log(scoreBoardGroupC)
+//console.log(scoreBoardGroupC)
 
 const scoreBoardGroupD = matchDaysScore(scheduleGroupD)
-console.log(scoreBoardGroupD)
+//console.log(scoreBoardGroupD)
 
 
-
+//TODO: Montar las clasificaciones de cada jornada para cada grupo y mostrarlas por pantalla
 

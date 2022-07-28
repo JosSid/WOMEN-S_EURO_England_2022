@@ -2,7 +2,7 @@
 
 //EMPAREJAMIENTOS DE LOS EQUIPOS PARA LOS PARTIDOS DE LA LIGUILLA
 
-import {teams, groupA, groupB, groupC, groupD} from "./groupsCreate.js"
+import {groupA, groupB, groupC, groupD} from "./groupsCreate.js"
 
 //Funcion para definir las jornadas de cada grupo del torneo
 /**
@@ -21,7 +21,7 @@ function scheduleCreation(group) {//Como parametro le pasaremnos un Array de equ
       for (let j = 0; j < numMatchesForMatchDay; j++) {
         //Registrar el partido en la planificacion
         //Un partido es el enfrentamiento entre dos equipos
-        const match = { home: "home", goalsHome: 0, goalsAway: 0,away: "away" };
+        const match = { home: "home", away: "away" };
         matchDay.push(match);
       }
       scheduleMatches.push(matchDay);
