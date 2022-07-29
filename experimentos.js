@@ -4,14 +4,14 @@ import {groupA, groupB, groupC, groupD} from "./docs/groupsCreate.js"
 import { scheduleGroupA, scheduleGroupB, scheduleGroupC, scheduleGroupD } from "./docs/matchDaysCreate.js"
 
 
-function startLeague(scheduleGroup) {
+function startLeague(scheduleGroup,groupObj) {
     //Para cada Jornada del calendario
     const scheduleGroupResults = []
     
     for(const matchDay of scheduleGroup) {
         const matchDayScoreBoard = {
             results: [],
-            stadistics: undefined
+            stadisticsDay: undefined
         }
 
         scheduleGroupResults.push(matchDayScoreBoard)
@@ -19,92 +19,52 @@ function startLeague(scheduleGroup) {
         for(const match of matchDay) {
             //jugar el partido
             
-            const matchScoreBoard = {
-                homeTeamName: match.home,
-                homeGoals: generateGoals(),
-                awayTeamName: match.away,
-                awayGoals: generateGoals()
-            }
+            const result = play(match)
             //TODO: crear las estadisticas para actualizarlas en cada jornada
-            clasificationTeams(matchScoreBoard)
+            const updateTeams = (groupObj) => {
+                const homeTeam = groupObj.find(team => team.name === result.homeTeamName)
+                const awayTeam = groupObj.find(team => team.name === result.awayTeamName)   
+                homeTeam.stadistics.goalsFor += result.homeGoals
+                homeTeam.stadistics.goalsAgainst += result.awayGoals
+                awayTeam.stadistics.goalsFor += result.awayGoals
+                awayTeam.stadistics.goalsAgainst += result.homeGoals
+                if (result.homeGoals > result.awayGoals) {
+                    homeTeam.stadistics.points += 3
+                    homeTeam.stadistics.matchesWon++
+                    
+                    awayTeam.stadistics.points += 0
+                    awayTeam.stadistics.matchesLost++
+                    
+                } else if (result.homeGoals < result.awayGoals) {
+                    homeTeam.stadistics.points += 0
+                    homeTeam.stadistics.matchesLost++
+                    
+                    awayTeam.stadistics.points += 3
+                    awayTeam.stadistics.matchesWon++
+                } else {
+                    homeTeam.stadistics.points += 1
+                    homeTeam.stadistics.matchesDraw++
+                    
+                    awayTeam.stadistics.points += 1
+                    awayTeam.stadistics.matchesDraw++
+                }
+                
+            }
+            
+            updateTeams(groupAObj)
             //Ordenar los equipos segun puntos en cada jornada
-            matchDayScoreBoard.results.push(matchScoreBoard)
+            matchDayScoreBoard.results.push(result)
+           
         }
-        
+        matchDayScoreBoard.stadisticsDay = groupObj.map(team => Object.assign({},team))
     }
     return scheduleGroupResults
 }
+//Me crea las estadisticas para cada equipo de cada partido de cada jornada
 
-function clasificationTeams(result,groupObj) {
-    const pointsPerWin = 3
-    const pointsPerDraw = 1
-    const pointsPerLose = 0
-    for(let i = 0; i < result.length; i++) {
-        let homeTeam1 = groupObj.find(team => team.name === result[i].results[0].homeTeamName)
-        let homeTeam2 = groupObj.find(team => team.name === result[i].results[1].homeTeamName)
-        let awayTeam1 = groupObj.find(team => team.name === result[i].results[0].awayTeamName)
-        let awayTeam2 = groupObj.find(team => team.name === result[i].results[1].awayTeamName)
-
-        homeTeam1.stadistics.goalsFor += result[i].results[0].homeGoals
-        homeTeam1.stadistics.goalsAgainst += result[i].results[0].awayGoals
-        awayTeam1.stadistics.goalsFor += result[i].results[0].awayGoals
-        awayTeam1.stadistics.goalsAgainst += result[i].results[0].homeGoals
-
-        homeTeam2.stadistics.goalsFor += result[i].results[1].homeGoals
-        homeTeam2.stadistics.goalsAgainst += result[i].results[1].awayGoals
-        awayTeam2.stadistics.goalsFor += result[i].results[1].awayGoals
-        awayTeam2.stadistics.goalsAgainst += result[i].results[1].homeGoals
-
-        if (result[i].results[0].homeGoals > result[i].results[0].awayGoals) {
-            homeTeam1.stadistics.points += pointsPerWin
-            homeTeam1.stadistics.matchesWon++
-            
-            awayTeam1.stadistics.points += pointsPerLose
-            awayTeam1.stadistics.matchesLost++
-            
-        } else if (result[i].results[0].homeGoals < result[i].results[0].awayGoals) {
-            homeTeam1.stadistics.points += pointsPerLose
-            homeTeam1.stadistics.matchesLost++
-            
-            awayTeam1.stadistics.points += pointsPerWin
-            awayTeam1.stadistics.matchesWon++
-        } else {
-            homeTeam1.stadistics.points += pointsPerDraw
-            homeTeam1.stadistics.matchesDraw++
-            
-            awayTeam1.stadistics.points += pointsPerDraw
-            awayTeam1.stadistics.matchesDraw++
-        }
-
-        if (result[i].results[1].homeGoals > result[i].results[1].awayGoals) {
-            homeTeam2.stadistics.points += pointsPerWin
-            homeTeam2.stadistics.matchesWon++
-            
-            awayTeam2.stadistics.points += pointsPerLose
-            awayTeam2.stadistics.matchesLost++
-            
-        } else if (result[i].results[1].homeGoals < result[i].results[1].awayGoals) {
-            homeTeam2.stadistics.points += pointsPerLose
-            homeTeam2.stadistics.matchesLost++
-            
-            awayTeam2.stadistics.points += pointsPerWin
-            awayTeam2.stadistics.matchesWon++
-        } else {
-            homeTeam2.stadistics.points += pointsPerDraw
-            homeTeam2.stadistics.matchesDraw++
-            
-            awayTeam2.stadistics.points += pointsPerDraw
-            awayTeam2.stadistics.matchesDraw++
-        }
-        
-    }
-
-    return groupObj
-
-}
-
+//Me ordena los equipos de groupObj creando la clasificacion de cada jornada
 function createClasification(groupObj) {
-    const stadistics = groupObj.sort(function(teamA,teamB) {
+    const clasification = groupObj.sort(function(teamA,teamB) {
         if (teamA.stadistics.points > teamB.stadistics.points) {
             return -1
         } else if (teamB.stadistics.points > teamA.stadistics.points) {
@@ -122,16 +82,26 @@ function createClasification(groupObj) {
             }
         }
     }) 
-    return stadistics
+    return clasification
+}
+
+function play(match) {
+    const homeGoals = generateGoals()
+    const awayGoals = generateGoals()
+
+    return {
+        homeTeamName: match.home,
+        homeGoals,
+        awayTeamName: match.away,
+        awayGoals
+    }
 }
 
 function generateGoals(max = 7) {
     return Math.floor(Math.random() * max)
 }
+const a = startLeague(scheduleGroupA,groupAObj)
 
-const a = startLeague(scheduleGroupA)
-clasificationTeams(a,groupAObj)
-createClasification(groupAObj)
-console.log(a[0], a[1], a[2])
-console.log(a)
-console.log(groupAObj)
+console.log(a[0].stadisticsDay)
+
+
