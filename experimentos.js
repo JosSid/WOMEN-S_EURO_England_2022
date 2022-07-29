@@ -103,12 +103,35 @@ function clasificationTeams(result,groupObj) {
 
 }
 
+function createClasification(groupObj) {
+    const stadistics = groupObj.sort(function(teamA,teamB) {
+        if (teamA.stadistics.points > teamB.stadistics.points) {
+            return -1
+        } else if (teamA.stadistics.points > teamB.stadistics.points) {
+            return 1
+        } else {
+            const diffGoalsTeamA = teamA.stadistics.goalsFor - teamA.stadistics.goalsAgainst
+            const diffGoalsTeamB = teamB.stadistics.goalsFor - teamB.stadistics.goalsAgainst
+
+            if (diffGoalsTeamA > diffGoalsTeamB) {
+                return -1
+            } else if (diffGoalsTeamB > diffGoalsTeamA){
+                return 1
+            } else {
+                return 0
+            }
+        }
+    }) 
+    return stadistics
+}
+
 function generateGoals(max = 7) {
     return Math.floor(Math.random() * max)
 }
 
 const a = startLeague(scheduleGroupA)
 clasificationTeams(a,groupAObj)
+createClasification(groupAObj)
 console.log(a[0], a[1], a[2])
 console.log(a)
 console.log(groupAObj)
