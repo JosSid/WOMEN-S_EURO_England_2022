@@ -26,7 +26,7 @@ function startLeague(scheduleGroup) {
                 awayGoals: generateGoals()
             }
             //TODO: crear las estadisticas para actualizarlas en cada jornada
-            
+            clasificationTeams(matchScoreBoard)
             //Ordenar los equipos segun puntos en cada jornada
             matchDayScoreBoard.results.push(matchScoreBoard)
         }
@@ -107,7 +107,7 @@ function createClasification(groupObj) {
     const stadistics = groupObj.sort(function(teamA,teamB) {
         if (teamA.stadistics.points > teamB.stadistics.points) {
             return -1
-        } else if (teamA.stadistics.points > teamB.stadistics.points) {
+        } else if (teamB.stadistics.points > teamA.stadistics.points) {
             return 1
         } else {
             const diffGoalsTeamA = teamA.stadistics.goalsFor - teamA.stadistics.goalsAgainst
