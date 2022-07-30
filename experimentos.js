@@ -14,14 +14,14 @@ function startLeague(scheduleGroup,groupObj) {
             stadisticsDay: undefined
         }
 
-        scheduleGroupResults.push(matchDayScoreBoard)
+
         //Para cada partido de cada jornada
         for(const match of matchDay) {
             //jugar el partido
             
             const result = play(match)
             //TODO: crear las estadisticas para actualizarlas en cada jornada
-            const updateTeams = (groupObj) => {
+            const updateTeams = (result) => {
                 const homeTeam = groupObj.find(team => team.name === result.homeTeamName)
                 const awayTeam = groupObj.find(team => team.name === result.awayTeamName)   
                 homeTeam.stadistics.goalsFor += result.homeGoals
@@ -51,12 +51,19 @@ function startLeague(scheduleGroup,groupObj) {
                 
             }
             
-            updateTeams(groupAObj)
+            updateTeams(result)
+            
             //Ordenar los equipos segun puntos en cada jornada
             matchDayScoreBoard.results.push(result)
-           
+            
         }
-        matchDayScoreBoard.stadisticsDay = groupObj.map(team => Object.assign({},team))
+        
+        
+        let standings = createClasification(groupObj)
+        
+
+        matchDayScoreBoard.stadisticsDay = JSON.parse(JSON.stringify(standings))
+        scheduleGroupResults.push(matchDayScoreBoard)
     }
     return scheduleGroupResults
 }
@@ -102,6 +109,6 @@ function generateGoals(max = 7) {
 }
 const a = startLeague(scheduleGroupA,groupAObj)
 
-console.log(a[0].stadisticsDay)
+console.log(a[0].stadisticsDay,a[1].stadisticsDay,a[2].stadisticsDay)
 
 
