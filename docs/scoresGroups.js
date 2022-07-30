@@ -1,61 +1,115 @@
 import {groupAObj, groupBObj, groupCObj, groupDObj} from "./teamsClass.js"
-import {groupA, groupB, groupC, groupD} from "./groupsCreate.js"
+
 
 import { scheduleGroupA, scheduleGroupB, scheduleGroupC, scheduleGroupD } from "./matchDaysCreate.js"
 
-
-
-//Funcion para crear los marcadores de cada jornada
-/**
- * 
- * @param {*calendario de jornadas} scheduleGroup 
- * @returns resultado de cada jornada del calendario
- */
-function matchDaysScore(scheduleGroup) {
-    const scoreBoardGroup = [] //Array donde se almacenan los resultados de los partidos cada jornada
-    for(let i = 0; i < scheduleGroup.length ; i++) {
-        const scoreboardMatch1 = score(scheduleGroup[i][0])//Resultado del primer partido
-        const scoreboardMatch2 = score(scheduleGroup[i][1])//Resultado del segundo partido
-        scheduleGroup[i][0].goalsHome += scoreboardMatch1[0]//Sumamos los goles de cada equipo al objeto "partido"
-        scheduleGroup[i][0].goalsAway += scoreboardMatch1[1]//Sumamos los goles de cada equipo al objeto "partido"
-        scheduleGroup[i][1].goalsHome += scoreboardMatch2[0]//Sumamos los goles de cada equipo al objeto "partido"
-        scheduleGroup[i][1].goalsAway += scoreboardMatch2[1]//Sumamos los goles de cada equipo al objeto "partido"
-        const matchDaysScore1 = scheduleGroup[i][0]
-        const matchDaysScore2 = scheduleGroup[i][1]
-        scoreBoardGroup.push([matchDaysScore1, matchDaysScore2])
-    }
-    return scoreBoardGroup
-}
-
-//Funcion para asignar goles al marcador de cada partido
-/**
- * 
- * @param {*Array de dos equipos} teams 
- * @returns Resultado para el partido
- */
-function score(teams) {
-    const scoreBoard = []
-    for (let team in teams) {
-        let goals = Math.random()
-        goals = goals * 7
-        goals = Math.floor(goals)
-        scoreBoard.push(goals)
-    }
-    return scoreBoard
-
+function startLeague(scheduleGroup,groupObj) {
+    //Para cada Jornada del calendario
+    const scheduleGroupResults = []
     
+    for(const matchDay of scheduleGroup) {
+        const matchDayScoreBoard = {
+            results: [],
+            stadisticsDay: undefined
+        }
+
+
+        //Para cada partido de cada jornada
+        for(const match of matchDay) {
+            //jugar el partido
+            
+            const result = play(match)
+            //TODO: crear las estadisticas para actualizarlas en cada jornada
+            const updateTeams = (result) => {
+                const homeTeam = groupObj.find(team => team.name === result.homeTeamName)
+                const awayTeam = groupObj.find(team => team.name === result.awayTeamName)   
+                homeTeam.stadistics.goalsFor += result.homeGoals
+                homeTeam.stadistics.goalsAgainst += result.awayGoals
+                awayTeam.stadistics.goalsFor += result.awayGoals
+                awayTeam.stadistics.goalsAgainst += result.homeGoals
+                if (result.homeGoals > result.awayGoals) {
+                    homeTeam.stadistics.points += 3
+                    homeTeam.stadistics.matchesWon++
+                    
+                    awayTeam.stadistics.points += 0
+                    awayTeam.stadistics.matchesLost++
+                    
+                } else if (result.homeGoals < result.awayGoals) {
+                    homeTeam.stadistics.points += 0
+                    homeTeam.stadistics.matchesLost++
+                    
+                    awayTeam.stadistics.points += 3
+                    awayTeam.stadistics.matchesWon++
+                } else {
+                    homeTeam.stadistics.points += 1
+                    homeTeam.stadistics.matchesDraw++
+                    
+                    awayTeam.stadistics.points += 1
+                    awayTeam.stadistics.matchesDraw++
+                }
+                
+            }
+            
+            updateTeams(result)
+            
+            //Ordenar los equipos segun puntos en cada jornada
+            matchDayScoreBoard.results.push(result)
+            
+        }
+        
+        
+        let standings = createClasification(groupObj)
+        
+
+        matchDayScoreBoard.stadisticsDay = JSON.parse(JSON.stringify(standings))
+        scheduleGroupResults.push(matchDayScoreBoard)
+    }
+    return scheduleGroupResults
+}
+//Me crea las estadisticas para cada equipo de cada partido de cada jornada
+
+//Me ordena los equipos de groupObj creando la clasificacion de cada jornada
+function createClasification(groupObj) {
+    const clasification = groupObj.sort(function(teamA,teamB) {
+        if (teamA.stadistics.points > teamB.stadistics.points) {
+            return -1
+        } else if (teamB.stadistics.points > teamA.stadistics.points) {
+            return 1
+        } else {
+            const diffGoalsTeamA = teamA.stadistics.goalsFor - teamA.stadistics.goalsAgainst
+            const diffGoalsTeamB = teamB.stadistics.goalsFor - teamB.stadistics.goalsAgainst
+
+            if (diffGoalsTeamA > diffGoalsTeamB) {
+                return -1
+            } else if (diffGoalsTeamB > diffGoalsTeamA){
+                return 1
+            } else {
+                return 0
+            }
+        }
+    }) 
+    return clasification
 }
 
+function play(match) {
+    const homeGoals = generateGoals()
+    const awayGoals = generateGoals()
+
+    return {
+        homeTeamName: match.home,
+        homeGoals,
+        awayTeamName: match.away,
+        awayGoals
+    }
+}
+
+function generateGoals(max = 7) {
+    return Math.floor(Math.random() * max)
+}
+export const resultsA = startLeague(scheduleGroupA,groupAObj)
+export const resultsB = startLeague(scheduleGroupB,groupBObj)
+export const resultsC = startLeague(scheduleGroupC,groupCObj)
+export const resultsD = startLeague(scheduleGroupD,groupDObj)
 
 
-const scoreBoardGroupA = matchDaysScore(scheduleGroupA)
-console.log(scoreBoardGroupA)
 
-const scoreBoardGroupB = matchDaysScore(scheduleGroupB)
-console.log(scoreBoardGroupB)
-
-const scoreBoardGroupC = matchDaysScore(scheduleGroupC)
-console.log(scoreBoardGroupC)
-
-const scoreBoardGroupD = matchDaysScore(scheduleGroupD)
-console.log(scoreBoardGroupD)
