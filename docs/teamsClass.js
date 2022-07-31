@@ -1,20 +1,25 @@
-//SEGUNDA PARTE DE LA PRACTICA
+//CUARTA PARTE DE LA PRACTICA
 
 //Creamos la clase para instanciar los Object Teams
 
 import {groupA, groupB, groupC, groupD} from "./groupsCreate.js"
 
 class Team {
-    constructor(name,points = 0, matchesWon = 0, matchesDraw = 0, matchesLost = 0, goalsFor = 0, goalsAgainst = 0) {
+    constructor(name,stadistics = {} ) {
         this.name = name
-        this.points = points
-        this.matchesWon = matchesWon
-        this.matchesDraw = matchesDraw
-        this.matchesLost = matchesLost
-        this.goalsFor = goalsFor
-        this.goalsAgainst = goalsAgainst
+        this.setup(stadistics) //Estadisticas de los equipos
     }
 
+    setup(stadistics = {}) {
+        const defaultStadistics = {  
+            points: 0,
+            matchesWon: 0,
+            matchesDraw: 0,
+            matchesLost: 0,
+            goalsFor: 0,
+            goalsAgainst: 0 }
+        this.stadistics = Object.assign(defaultStadistics, stadistics) // uso de Object.assign para usar una "plantilla" si no nos llega nada como config
+    }
 }
 /**
  * 
