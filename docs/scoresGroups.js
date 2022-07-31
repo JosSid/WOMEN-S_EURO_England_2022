@@ -23,29 +23,29 @@ function startLeague(scheduleGroup,groupObj) {
             const updateTeams = (result) => {
                 const homeTeam = groupObj.find(team => team.name === result.homeTeamName)
                 const awayTeam = groupObj.find(team => team.name === result.awayTeamName)   
-                homeTeam.stadistics.goalsFor += result.homeGoals
-                homeTeam.stadistics.goalsAgainst += result.awayGoals
-                awayTeam.stadistics.goalsFor += result.awayGoals
-                awayTeam.stadistics.goalsAgainst += result.homeGoals
+                homeTeam.goalsFor += result.homeGoals
+                homeTeam.goalsAgainst += result.awayGoals
+                awayTeam.goalsFor += result.awayGoals
+                awayTeam.goalsAgainst += result.homeGoals
                 if (result.homeGoals > result.awayGoals) {
-                    homeTeam.stadistics.points += 3
-                    homeTeam.stadistics.matchesWon++
+                    homeTeam.points += 3
+                    homeTeam.matchesWon++
                     
-                    awayTeam.stadistics.points += 0
-                    awayTeam.stadistics.matchesLost++
+                    awayTeam.points += 0
+                    awayTeam.matchesLost++
                     
                 } else if (result.homeGoals < result.awayGoals) {
-                    homeTeam.stadistics.points += 0
-                    homeTeam.stadistics.matchesLost++
+                    homeTeam.points += 0
+                    homeTeam.matchesLost++
                     
-                    awayTeam.stadistics.points += 3
-                    awayTeam.stadistics.matchesWon++
+                    awayTeam.points += 3
+                    awayTeam.matchesWon++
                 } else {
-                    homeTeam.stadistics.points += 1
-                    homeTeam.stadistics.matchesDraw++
+                    homeTeam.points += 1
+                    homeTeam.matchesDraw++
                     
-                    awayTeam.stadistics.points += 1
-                    awayTeam.stadistics.matchesDraw++
+                    awayTeam.points += 1
+                    awayTeam.matchesDraw++
                 }
                 
             }
@@ -71,20 +71,26 @@ function startLeague(scheduleGroup,groupObj) {
 //Me ordena los equipos de groupObj creando la clasificacion de cada jornada
 function createClasification(groupObj) {
     const clasification = groupObj.sort(function(teamA,teamB) {
-        if (teamA.stadistics.points > teamB.stadistics.points) {
+        if (teamA.points > teamB.points) {
             return -1
-        } else if (teamB.stadistics.points > teamA.stadistics.points) {
+        } else if (teamB.points > teamA.points) {
             return 1
         } else {
-            const diffGoalsTeamA = teamA.stadistics.goalsFor - teamA.stadistics.goalsAgainst
-            const diffGoalsTeamB = teamB.stadistics.goalsFor - teamB.stadistics.goalsAgainst
+            const diffGoalsTeamA = teamA.goalsFor - teamA.goalsAgainst
+            const diffGoalsTeamB = teamB.goalsFor - teamB.goalsAgainst
 
             if (diffGoalsTeamA > diffGoalsTeamB) {
                 return -1
             } else if (diffGoalsTeamB > diffGoalsTeamA){
                 return 1
             } else {
-                return 0
+                if(teamA.goalsFor > teamB.goalsFor) {
+                    return -1
+                }else if (teamB.goalsFor > teamA.goalsFor) {
+                    return 1
+                } else {
+                    return 0
+                }
             }
         }
     }) 
