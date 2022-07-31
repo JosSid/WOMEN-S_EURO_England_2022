@@ -115,7 +115,13 @@ function createClasification(groupObj) {
             } else if (diffGoalsTeamB > diffGoalsTeamA){
                 return 1
             } else {
-                return 0
+                if (teamA.stadistics.goalsFor > teamB.stadistics.goalsFor){
+                    return -1
+                } else if (teamB.stadistics.goalsFor > teamA.stadistics.goalsFor) {
+                    return 1
+                } else {
+                    return 0
+                }
             }
         }
     }) 
