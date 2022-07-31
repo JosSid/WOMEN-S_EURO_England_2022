@@ -16,3 +16,8 @@ El ejercicio para la practica consiste en desarrollar un simulador del campeonat
 
 *Finalmente he creado el sistema de partidos de playoff desde los cuartos de final hasta la final y presentado los resultados en consola.
 
+Puedes clonar este repositorio aqui:
+
+git clone https://github.com/JosSid/WOMEN-S_EURO_England_2022.git
+
+Saludos y gracias!!
